@@ -15,6 +15,7 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showDemoMenu, setShowDemoMenu] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -30,9 +31,15 @@ export const Navbar: React.FC = () => {
 
   const isAuthPage = ['/login', '/register', '/verify-otp', '/forgot-password', '/reset-password', '/role-selection'].includes(location.pathname);
 
-  const handleDemoSignIn = () => {
-    demoLogin();
-    navigate('/dashboard');
+  const handleDemoSignIn = (role: 'learner' | 'expert' | 'admin' = 'learner') => {
+    demoLogin(role);
+    setShowDemoMenu(false);
+    setIsMobileMenuOpen(false);
+    if (role === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/dashboard');
+    }
   };
 
   return (
@@ -90,15 +97,30 @@ export const Navbar: React.FC = () => {
                 <Button variant="primary" size="sm" onClick={() => navigate('/register')}>
                   Join Free
                 </Button>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  leftIcon={<Sparkles className="w-4 h-4 text-accent-500 animate-pulse" />}
-                  className="text-accent-600 hover:bg-accent-50 dark:hover:bg-accent-950/20"
-                  onClick={handleDemoSignIn}
-                >
-                  Demo
-                </Button>
+                <div className="relative">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    leftIcon={<Sparkles className="w-4 h-4 text-accent-500 animate-pulse" />}
+                    className="text-accent-600 hover:bg-accent-50 dark:hover:bg-accent-950/20"
+                    onClick={() => setShowDemoMenu(!showDemoMenu)}
+                  >
+                    Demo
+                  </Button>
+                  {showDemoMenu && (
+                    <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-dark-850 rounded-xl shadow-lg border border-gray-100 dark:border-dark-700 py-2 z-50 animate-fade-in">
+                      <button onClick={() => handleDemoSignIn('learner')} className="w-full text-left px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 flex items-center gap-2">
+                        <span>🎓</span> Learner Login
+                      </button>
+                      <button onClick={() => handleDemoSignIn('expert')} className="w-full text-left px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 flex items-center gap-2">
+                        <span>👨‍🏫</span> Expert Login
+                      </button>
+                      <button onClick={() => handleDemoSignIn('admin')} className="w-full text-left px-4 py-2.5 text-xs font-semibold text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-dark-800 flex items-center gap-2">
+                        <span>🛡️</span> Admin Login
+                      </button>
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </div>
@@ -159,9 +181,20 @@ export const Navbar: React.FC = () => {
                 <Button variant="primary" fullWidth onClick={() => { setIsMobileMenuOpen(false); navigate('/register'); }}>
                   Join Free
                 </Button>
-                <Button variant="secondary" fullWidth onClick={() => { setIsMobileMenuOpen(false); handleDemoSignIn(); }}>
-                  Try Demo login
-                </Button>
+                <div className="border-t border-gray-100 dark:border-dark-700 pt-3">
+                  <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Demo Login</p>
+                  <div className="flex flex-col gap-2">
+                    <Button variant="secondary" fullWidth size="sm" onClick={() => handleDemoSignIn('learner')}>
+                      🎓 Learner
+                    </Button>
+                    <Button variant="secondary" fullWidth size="sm" onClick={() => handleDemoSignIn('expert')}>
+                      👨‍🏫 Expert
+                    </Button>
+                    <Button variant="secondary" fullWidth size="sm" onClick={() => handleDemoSignIn('admin')}>
+                      🛡️ Admin
+                    </Button>
+                  </div>
+                </div>
               </div>
             )}
           </div>

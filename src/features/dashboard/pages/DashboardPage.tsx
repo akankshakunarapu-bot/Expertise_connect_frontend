@@ -1,5 +1,6 @@
 import React from 'react';
 import { SEOHead } from '@/components/common/SEOHead';
+import { useAuth } from '@/hooks/useAuth';
 import {
   DashboardStats,
   UpcomingSessions,
@@ -10,8 +11,24 @@ import {
   LearningProgress,
   QuickActions,
 } from '../components/DashboardWidgets';
+import { ExpertDashboardView } from '../components/ExpertDashboardView';
 
 export const DashboardPage: React.FC = () => {
+  const { user } = useAuth();
+
+  // Expert Dashboard
+  if (user?.role === 'expert') {
+    return (
+      <>
+        <SEOHead title="Expert Workspace" description="Manage your sessions, students, and earnings." />
+        <ExpertDashboardView />
+      </>
+    );
+  }
+
+  // Learner Dashboard
+  const firstName = user?.fullName ? user.fullName.split(' ')[0] : 'Learner';
+
   return (
     <>
       <SEOHead title="Learner Workspace" description="Manage your lessons, certifications, and active mentoring." />
@@ -19,7 +36,7 @@ export const DashboardPage: React.FC = () => {
       {/* Welcome Header */}
       <div className="mb-8 select-none">
         <h2 className="text-xl sm:text-2xl font-black text-gray-900 dark:text-white leading-tight">
-          Welcome back, Akanksha! 👋
+          Welcome back, {firstName}! 👋
         </h2>
         <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
           Let's continue your developer learning journey.

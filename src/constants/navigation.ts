@@ -135,7 +135,6 @@ export const NAVBAR_MENU: MenuItem[] = [
   { id: 'explore', label: 'Explore', href: '/search' },
   { id: 'how-it-works', label: 'How It Works', href: '/#how-it-works' },
   { id: 'become-expert', label: 'Become an Expert', href: '/register' },
-  { id: 'pricing', label: 'Pricing', href: '/#pricing' },
 ];
 
 export const FOOTER_LINKS = {
@@ -143,8 +142,6 @@ export const FOOTER_LINKS = {
     { label: 'How It Works', href: '/#how-it-works' },
     { label: 'Find Experts', href: '/search' },
     { label: 'Become an Expert', href: '/register' },
-    { label: 'Pricing', href: '/#pricing' },
-    { label: 'Enterprise', href: '/#pricing' },
   ],
   resources: [
     { label: 'Help Center', href: '#' },

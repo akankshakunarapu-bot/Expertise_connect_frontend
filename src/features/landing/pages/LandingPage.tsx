@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { SEOHead } from '@/components/common/SEOHead';
 import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
@@ -9,12 +10,20 @@ import {
   Categories,
   HowItWorks,
   Testimonials,
-  PricingSection,
   FAQSection,
   Newsletter,
 } from '../components/LandingSections';
 
 export const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const hasSeenOnboarding = localStorage.getItem('hasSeenOnboarding');
+    if (!hasSeenOnboarding) {
+      navigate('/onboarding', { replace: true });
+    }
+  }, [navigate]);
+
   return (
     <div className="min-h-screen flex flex-col">
       <SEOHead
@@ -29,7 +38,6 @@ export const LandingPage: React.FC = () => {
         <Categories />
         <HowItWorks />
         <Testimonials />
-        <PricingSection />
         <FAQSection />
         <Newsletter />
       </main>

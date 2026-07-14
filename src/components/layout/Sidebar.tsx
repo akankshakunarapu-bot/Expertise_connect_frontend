@@ -48,21 +48,6 @@ export const Sidebar: React.FC<SidebarProps> = ({ isAdmin = false }) => {
           </Link>
         </div>
 
-        {/* User Mini Panel */}
-        {user && (
-          <div className="px-6 py-4.5 border-b border-gray-100 dark:border-dark-700/50 flex items-center gap-3 shrink-0">
-            <img src={user.avatar} alt={user.fullName} className="h-9 w-9 rounded-full object-cover border border-gray-200 dark:border-dark-700" />
-            <div className="min-w-0">
-              <p className="text-xs font-bold text-gray-900 dark:text-gray-200 truncate leading-tight">
-                {user.fullName}
-              </p>
-              <p className="text-[10px] text-gray-400 dark:text-gray-500 capitalize truncate mt-0.5">
-                {user.role} Account
-              </p>
-            </div>
-          </div>
-        )}
-
         {/* Navigation Items */}
         <nav className="flex-1 overflow-y-auto px-4 py-6 space-y-1.5 no-scrollbar">
           {menuItems.map((item) => {
@@ -97,6 +82,21 @@ export const Sidebar: React.FC<SidebarProps> = ({ isAdmin = false }) => {
             >
               <Shield className="w-3.5 h-3.5" /> Back to Learner Portal
             </Link>
+          </div>
+        )}
+
+        {/* User Mini Panel */}
+        {user && (
+          <div className="px-6 py-4.5 border-t border-gray-100 dark:border-dark-700/50 flex items-center gap-3 shrink-0">
+            <img src={user.avatar} alt={user.fullName} className="h-9 w-9 rounded-full object-cover border border-gray-200 dark:border-dark-700" />
+            <div className="min-w-0">
+              <p className="text-xs font-bold text-gray-900 dark:text-gray-200 truncate leading-tight">
+                {user.fullName}
+              </p>
+              <p className="text-[10px] text-gray-400 dark:text-gray-500 capitalize truncate mt-0.5">
+                {user.role} Account
+              </p>
+            </div>
           </div>
         )}
       </aside>

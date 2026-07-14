@@ -36,7 +36,16 @@ export const ProfileSettings: React.FC = () => {
   });
 
   const onSubmit = (data: any) => {
-    update({ fullName: data.fullName });
+    const updatedData: Partial<AuthUser> = {
+      fullName: data.fullName,
+    };
+
+    if (user?.avatar?.includes('ui-avatars.com')) {
+      const encodedName = encodeURIComponent(data.fullName);
+      updatedData.avatar = `https://ui-avatars.com/api/?background=4F46E5&color=fff&name=${encodedName}&size=128`;
+    }
+
+    update(updatedData);
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 3000);
   };

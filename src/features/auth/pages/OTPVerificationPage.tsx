@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/useAuth';
 export const OTPVerificationPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const email = searchParams.get('email') || 'your email';
+  const role = searchParams.get('role') || 'learner';
   const navigate = useNavigate();
   const { demoLogin } = useAuth();
   const [timer, setTimer] = useState(30);
@@ -22,9 +23,13 @@ export const OTPVerificationPage: React.FC = () => {
   }, [timer]);
 
   const handleComplete = (otp: string) => {
-    // For demo purposes
-    demoLogin();
-    navigate('/role-selection');
+    const loginRole = role === 'expert' ? 'expert' : 'learner';
+    demoLogin(loginRole);
+    if (role === 'expert') {
+      navigate('/expert-profile-setup', { replace: true });
+    } else {
+      navigate('/dashboard', { replace: true });
+    }
   };
 
   const handleResend = () => {

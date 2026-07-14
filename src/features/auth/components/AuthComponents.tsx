@@ -158,15 +158,66 @@ export const LoginForm: React.FC = () => {
     defaultValues: { email: '', password: '', rememberMe: false },
   });
 
+  const handleQuickLogin = (role: 'learner' | 'expert' | 'admin') => {
+    demoLogin(role);
+    if (role === 'admin') {
+      navigate('/admin');
+    } else {
+      navigate('/dashboard');
+    }
+  };
+
   const onSubmit = (data: z.infer<typeof loginSchema>) => {
-    // For demo purposes, we do a simulation login
-    demoLogin();
-    navigate('/dashboard');
+    const emailLower = data.email.toLowerCase();
+    let role: 'learner' | 'expert' | 'admin' = 'learner';
+    if (emailLower.includes('admin')) {
+      role = 'admin';
+    } else if (emailLower.includes('mentor') || emailLower.includes('expert') || emailLower.includes('john') || emailLower.includes('david')) {
+      role = 'expert';
+    }
+    handleQuickLogin(role);
   };
 
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(onSubmit)} className="space-y-4">
+        {/* Quick Demo Logins */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-3 select-none">
+            <span className="h-px bg-gray-200 dark:bg-dark-700 w-full" />
+            <span className="text-[10px] font-bold text-gray-400 dark:text-gray-500 px-3 uppercase tracking-wider whitespace-nowrap">
+              Quick Demo Login
+            </span>
+            <span className="h-px bg-gray-200 dark:bg-dark-700 w-full" />
+          </div>
+          <div className="grid grid-cols-3 gap-2.5">
+            <button
+              type="button"
+              onClick={() => handleQuickLogin('learner')}
+              className="flex flex-col items-center gap-1.5 py-2.5 px-2 rounded-2xl border border-gray-200 dark:border-dark-700 bg-gray-50/50 hover:bg-primary-50 dark:hover:bg-primary-950/20 hover:border-primary-300 dark:hover:border-primary-800 text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 font-semibold text-xs transition-all active:scale-[0.97]"
+            >
+              <span className="text-lg select-none">🎓</span>
+              <span>Student</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickLogin('expert')}
+              className="flex flex-col items-center gap-1.5 py-2.5 px-2 rounded-2xl border border-gray-200 dark:border-dark-700 bg-gray-50/50 hover:bg-emerald-50 dark:hover:bg-emerald-950/20 hover:border-emerald-300 dark:hover:border-emerald-800 text-gray-700 dark:text-gray-300 hover:text-emerald-600 dark:hover:text-emerald-400 font-semibold text-xs transition-all active:scale-[0.97]"
+            >
+              <span className="text-lg select-none">👨‍🏫</span>
+              <span>Mentor</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleQuickLogin('admin')}
+              className="flex flex-col items-center gap-1.5 py-2.5 px-2 rounded-2xl border border-gray-200 dark:border-dark-700 bg-gray-50/50 hover:bg-indigo-50 dark:hover:bg-indigo-950/20 hover:border-indigo-300 dark:hover:border-indigo-800 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-semibold text-xs transition-all active:scale-[0.97]"
+            >
+              <span className="text-lg select-none">🛡️</span>
+              <span>Admin</span>
+            </button>
+          </div>
+        </div>
+
         <FormField
           name="email"
           label="Email Address"
@@ -229,14 +280,14 @@ export const SignupForm: React.FC = () => {
 
   const methods = useForm<z.infer<typeof signupSchema>>({
     resolver: zodResolver(signupSchema),
-    defaultValues: { fullName: '', email: '', password: '', confirmPassword: '', agreeToTerms: undefined },
+    defaultValues: { fullName: '', email: '', password: '', confirmPassword: '', role: undefined as any, agreeToTerms: undefined },
   });
 
   const watchPassword = methods.watch('password', '');
+  const watchRole = methods.watch('role');
 
   const onSubmit = (data: z.infer<typeof signupSchema>) => {
-    // For demo, register goes directly to verify otp
-    navigate(`/verify-otp?email=${encodeURIComponent(data.email)}`);
+    navigate(`/verify-otp?email=${encodeURIComponent(data.email)}&role=${data.role}`);
   };
 
   return (
@@ -282,6 +333,44 @@ export const SignupForm: React.FC = () => {
           placeholder="••••••••"
           leftIcon={<Lock className="w-4.5 h-4.5" />}
         />
+
+        {/* Role Selector */}
+        <div>
+          <label className="block text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2">
+            Select Role
+          </label>
+          <div className="grid grid-cols-2 gap-3">
+            <button
+              type="button"
+              onClick={() => methods.setValue('role', 'learner', { shouldValidate: true })}
+              className={`flex flex-col items-center gap-1.5 py-3 px-3 rounded-xl border-2 transition-all active:scale-[0.97] ${
+                watchRole === 'learner'
+                  ? 'border-primary-500 bg-primary-50 dark:bg-primary-950/20 text-primary-700 dark:text-primary-400'
+                  : 'border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+              }`}
+            >
+              <span className="text-lg">🎓</span>
+              <span className="text-xs font-bold">Learner</span>
+              <span className="text-[10px] text-gray-400 dark:text-gray-500">I want to learn</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => methods.setValue('role', 'expert', { shouldValidate: true })}
+              className={`flex flex-col items-center gap-1.5 py-3 px-3 rounded-xl border-2 transition-all active:scale-[0.97] ${
+                watchRole === 'expert'
+                  ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-400'
+                  : 'border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+              }`}
+            >
+              <span className="text-lg">👨‍🏫</span>
+              <span className="text-xs font-bold">Expert</span>
+              <span className="text-[10px] text-gray-400 dark:text-gray-500">I want to mentor</span>
+            </button>
+          </div>
+          {methods.formState.errors.role && (
+            <p className="text-[11px] text-red-500 mt-1.5 font-medium">{methods.formState.errors.role.message}</p>
+          )}
+        </div>
 
         <FormCheckbox name="agreeToTerms" label="I agree to the terms and privacy policy" />
 

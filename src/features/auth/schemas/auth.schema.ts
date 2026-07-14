@@ -16,6 +16,9 @@ export const signupSchema = z
       .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
       .regex(/[0-9]/, 'Password must contain at least one number'),
     confirmPassword: z.string().min(1, 'Confirm Password is required'),
+    role: z.enum(['learner', 'expert'], {
+      required_error: 'Please select a profile role',
+    }),
     agreeToTerms: z.boolean().refine((val) => val === true, {
       message: 'You must agree to the terms and conditions',
     }),

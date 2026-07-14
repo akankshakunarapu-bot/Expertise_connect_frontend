@@ -8,14 +8,14 @@ export const AuthLayout: React.FC = () => {
       {/* Back button */}
       <Link
         to="/"
-        className="absolute top-6 left-6 z-10 p-2.5 rounded-xl bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-250 flex items-center gap-1.5 shadow-xs focus:outline-none transition-all active:scale-[0.98]"
+        className="absolute top-6 left-6 md:top-8 md:left-12 z-10 p-2.5 rounded-xl bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-250 flex items-center gap-1.5 shadow-xs focus:outline-none transition-all active:scale-[0.98]"
       >
         <ArrowLeft className="w-4 h-4" />
         <span className="text-xs font-semibold">Back to Home</span>
       </Link>
 
       {/* Left side: Branding/Taglines (Only on desktop) */}
-      <div className="hidden md:flex md:w-5/12 bg-gradient-to-tr from-primary-600 to-accent-700 dark:from-primary-750 dark:to-accent-950 p-12 flex-col justify-between text-white relative overflow-hidden select-none">
+      <div className="hidden md:flex md:w-5/12 bg-gradient-to-tr from-primary-600 to-accent-700 dark:from-primary-750 dark:to-accent-950 pt-28 px-12 pb-12 flex-col justify-between text-white relative overflow-hidden select-none">
         {/* Glow Effects */}
         <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-white/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-white/5 rounded-full blur-3xl -translate-x-1/3 translate-y-1/3" />

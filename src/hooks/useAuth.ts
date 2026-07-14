@@ -20,12 +20,25 @@ export function useAuth() {
   };
 
   // For demo purposes, simulate login with mock user
-  const demoLogin = () => {
+  const demoLogin = (role: 'learner' | 'expert' | 'admin' = 'learner') => {
+    const mockUser = {
+      ...CURRENT_USER,
+      isVerified: true,
+      role,
+    };
+
+    if (role === 'expert') {
+      mockUser.fullName = 'John David';
+      mockUser.email = 'john.david@example.com';
+      mockUser.avatar = 'https://ui-avatars.com/api/?background=10B981&color=fff&name=John+David&size=128';
+    } else if (role === 'admin') {
+      mockUser.fullName = 'System Administrator';
+      mockUser.email = 'admin@expertiseconnect.com';
+      mockUser.avatar = 'https://ui-avatars.com/api/?background=6366F1&color=fff&name=Admin&size=128';
+    }
+
     dispatch(setCredentials({
-      user: {
-        ...CURRENT_USER,
-        isVerified: true,
-      },
+      user: mockUser,
       tokens: {
         accessToken: 'demo-access-token',
         refreshToken: 'demo-refresh-token',

@@ -11,12 +11,15 @@ import { AuthLayout } from '@/components/layout/AuthLayout';
 
 // Lazy Loaded Pages
 const LandingPage = React.lazy(() => import('@/features/landing/pages/LandingPage'));
+const SplashPage = React.lazy(() => import('@/features/auth/pages/SplashPage'));
+const OnboardingPage = React.lazy(() => import('@/features/auth/pages/OnboardingPage'));
 const LoginPage = React.lazy(() => import('@/features/auth/pages/LoginPage'));
 const SignupPage = React.lazy(() => import('@/features/auth/pages/SignupPage'));
 const OTPVerificationPage = React.lazy(() => import('@/features/auth/pages/OTPVerificationPage'));
 const ForgotPasswordPage = React.lazy(() => import('@/features/auth/pages/ForgotPasswordPage'));
 const ResetPasswordPage = React.lazy(() => import('@/features/auth/pages/ResetPasswordPage'));
 const RoleSelectionPage = React.lazy(() => import('@/features/auth/pages/RoleSelectionPage'));
+const ExpertProfileSetupPage = React.lazy(() => import('@/features/auth/pages/ExpertProfileSetupPage'));
 const DashboardPage = React.lazy(() => import('@/features/dashboard/pages/DashboardPage'));
 const SearchPage = React.lazy(() => import('@/features/search/pages/SearchPage'));
 const ExpertProfilePage = React.lazy(() => import('@/features/experts/pages/ExpertProfilePage'));
@@ -47,6 +50,14 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <LazyLoader><LandingPage /></LazyLoader>,
+  },
+  {
+    path: '/splash',
+    element: <LazyLoader><SplashPage /></LazyLoader>,
+  },
+  {
+    path: '/onboarding',
+    element: <LazyLoader><OnboardingPage /></LazyLoader>,
   },
   {
     path: '/search',
@@ -84,6 +95,11 @@ export const router = createBrowserRouter([
         children: [
           { path: '', element: <LazyLoader><RoleSelectionPage /></LazyLoader> },
         ],
+      },
+      // Expert profile setup (protected, no dashboard layout)
+      {
+        path: '/expert-profile-setup',
+        element: <LazyLoader><ExpertProfileSetupPage /></LazyLoader>,
       },
       // Workspace dashboard layout routes
       {
